@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showSlides() {
         slides.forEach((slide, index) => {
-            slide.style.display = (index === currentSlide) ? "block" : "none";
+            slide.classList.remove("active");
+            if (index === currentSlide) {
+                slide.classList.add("active");
+            }
         });
         currentSlide = (currentSlide + 1) % slides.length;
         setTimeout(showSlides, 3000);
