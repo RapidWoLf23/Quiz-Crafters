@@ -10,11 +10,17 @@ header {
     background-color: #333;
     color: white;
     padding: 15px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
+    text-align: center;
 }
 
 nav ul li {
@@ -50,8 +56,47 @@ nav ul li a:hover {
 .slide {
     width: 100%;
     display: none;
+    transition: opacity 1s ease-in-out;
 }
 
 .active {
     display: block;
+    opacity: 1;
+}
+
+#testSection select {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 24px;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .slider {
+        width: 100%;
+    }
 }
