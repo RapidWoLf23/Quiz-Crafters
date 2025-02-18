@@ -1,115 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Crafters</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>Quiz Crafters</h1>
-        <nav>
-            <ul>
-                <li><a href="#" id="home">Home</a></li>
-                <li><a href="#" id="takeTest">Take a Test</a></li>
-                <li><a href="#" id="about">About Us</a></li>
-                <li><a href="#" id="leaderboard">Leaderboard</a></li>
-                <li><a href="#" id="loginSignup" class="login-tab">Login/Signup</a></li>
-                <li><a href="#" id="profile" class="hidden">Profile</a></li>
-            </ul>
-        </nav>
-    </header>
+<section id="testSection">
+    <h2>Select a Subject</h2>
+    <select id="subjectSelect">
+        <option value="english">English</option>
+        <option value="math">Mathematics</option>
+        <option value="physics">Physics</option>
+        <option value="science">General Science</option>
+    </select>
+    <button onclick="nextStep()">Next</button>
+</section>
 
-    <main id="content">
-        <!-- Home Section with Animated Slides -->
-        <section id="homeSection">
-            <div class="slider">
-                <img src="images/slide1.jpg" class="slide">
-                <img src="images/slide2.jpg" class="slide">
-                <img src="images/slide3.jpg" class="slide">
-            </div>
-        </section>
+<section id="topicSelectSection" class="hidden">
+    <h2>Do you want Topic-Specific or General MCQs?</h2>
+    <button onclick="chooseTopicSpecific()">Topic-Specific</button>
+    <button onclick="chooseGeneral()">General MCQs</button>
+</section>
 
-        <!-- Take a Test Section -->
-        <section id="testSection" class="hidden">
-            <h2>Select a Subject</h2>
-            <select id="subjectSelect">
-                <option value="english">English Language</option>
-                <option value="math">Mathematics</option>
-                <option value="science">Science</option>
-            </select>
-            <button onclick="startTest()">Confirm</button>
-        </section>
+<section id="topicInputSection" class="hidden">
+    <h2>Enter the Topic</h2>
+    <input type="text" id="topicInput" placeholder="Enter topic (e.g., Algebra)">
+    <button onclick="generateTopicMCQs()">Generate Topic-Specific Questions</button>
+</section>
 
-        <!-- Quiz Section -->
-        <section id="quizSection" class="hidden">
-            <div id="questionContainer"></div>
-            <button onclick="submitQuiz()">Submit Quiz</button>
-        </section>
+<section id="quizSection" class="hidden">
+    <div id="questionContainer"></div>
+    <button onclick="submitQuiz()">Submit Quiz</button>
+</section>
 
-        <!-- Result Section -->
-        <section id="resultSection" class="hidden">
-            <h3 id="quizResult"></h3>
-            <button onclick="goToLeaderboard()">Go to Leaderboard</button>
-        </section>
-    </main>
-
-    <script>
-        document.getElementById("takeTest").addEventListener("click", () => {
-            document.getElementById("homeSection").classList.add("hidden");
-            document.getElementById("testSection").classList.remove("hidden");
-        });
-
-        function startTest() {
-            const subject = document.getElementById("subjectSelect").value;
-            const confirmTest = confirm(`You selected ${subject}. Do you want to start the test?`);
-            if (confirmTest) {
-                const topicChoice = confirm("Do you want topic-specific MCQs? Click 'Cancel' for general MCQs.");
-                generateQuiz(subject, topicChoice);
-            }
-        }
-
-        function generateQuiz(subject, topicSpecific) {
-            const questions = [];
-            for (let i = 1; i <= 25; i++) {
-                questions.push({
-                    question: `Question ${i} for ${subject}`,
-                    options: ["Option A", "Option B", "Option C", "Option D"],
-                    answer: "A"
-                });
-            }
-            showQuiz(questions);
-        }
-
-        function showQuiz(questions) {
-            document.getElementById("testSection").classList.add("hidden");
-            document.getElementById("quizSection").classList.remove("hidden");
-
-            const container = document.getElementById("questionContainer");
-            container.innerHTML = "";
-            questions.forEach((q, index) => {
-                const div = document.createElement("div");
-                div.innerHTML = `<p>${q.question}</p>` +
-                    q.options.map((opt, i) => `<input type="radio" name="q${index}" value="${String.fromCharCode(65 + i)}"> ${opt}<br>`).join("");
-                container.appendChild(div);
-            });
-        }
-
-        function submitQuiz() {
-            const answers = document.querySelectorAll("input[type='radio']:checked");
-            let score = 0;
-            answers.forEach((ans) => {
-                if (ans.value === "A") score++;
-            });
-            document.getElementById("quizSection").classList.add("hidden");
-            document.getElementById("resultSection").classList.remove("hidden");
-            document.getElementById("quizResult").innerText = `You scored ${score}/25. Thanks for taking the test!`;
-        }
-
-        function goToLeaderboard() {
-            alert("Leaderboard functionality will be implemented later.");
-        }
-    </script>
-</body>
-</html>
+<section id="resultSection" class="hidden">
+    <h3 id="quizResult"></h3>
+    <button onclick="goToLeaderboard()">Go to Leaderboard</button>
+</section>
