@@ -22,13 +22,36 @@
     </header>
 
     <main id="content">
-        <!-- This will dynamically change based on user interaction -->
+        <!-- Home Section with Animated Slides -->
         <section id="homeSection">
             <div class="slider">
                 <img src="images/slide1.jpg" class="slide">
                 <img src="images/slide2.jpg" class="slide">
                 <img src="images/slide3.jpg" class="slide">
             </div>
+        </section>
+
+        <!-- Take a Test Section -->
+        <section id="testSection" class="hidden">
+            <h2>Select a Subject</h2>
+            <select id="subjectSelect">
+                <option value="english">English Language</option>
+                <option value="math">Mathematics</option>
+                <option value="science">Science</option>
+            </select>
+            <button onclick="startTest()">Confirm</button>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quizSection" class="hidden">
+            <div id="questionContainer"></div>
+            <button onclick="submitQuiz()">Submit Quiz</button>
+        </section>
+
+        <!-- Result Section -->
+        <section id="resultSection" class="hidden">
+            <h3 id="quizResult"></h3>
+            <button onclick="goToLeaderboard()">Go to Leaderboard</button>
         </section>
     </main>
 
