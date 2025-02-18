@@ -1,32 +1,42 @@
-<section id="testSection">
-    <h2>Select a Subject</h2>
-    <select id="subjectSelect">
-        <option value="english">English</option>
-        <option value="math">Mathematics</option>
-        <option value="physics">Physics</option>
-        <option value="science">General Science</option>
-    </select>
-    <button onclick="nextStep()">Next</button>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Crafters</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#take-test" id="take-test-tab">Take a Test</a></li>
+                <li><a href="#about-us">About Us</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<section id="topicSelectSection" class="hidden">
-    <h2>Do you want Topic-Specific or General MCQs?</h2>
-    <button onclick="chooseTopicSpecific()">Topic-Specific</button>
-    <button onclick="chooseGeneral()">General MCQs</button>
-</section>
+    <section id="home">
+        <h1>Welcome to Quiz Crafters!</h1>
+        <p>Test your knowledge with quizzes on various subjects!</p>
+    </section>
 
-<section id="topicInputSection" class="hidden">
-    <h2>Enter the Topic</h2>
-    <input type="text" id="topicInput" placeholder="Enter topic (e.g., Algebra)">
-    <button onclick="generateTopicMCQs()">Generate Topic-Specific Questions</button>
-</section>
+    <section id="take-test" class="hidden">
+        <h2>Select a Subject</h2>
+        <button onclick="startTest('English')">English Language</button>
+    </section>
 
-<section id="quizSection" class="hidden">
-    <div id="questionContainer"></div>
-    <button onclick="submitQuiz()">Submit Quiz</button>
-</section>
+    <section id="about-us" class="hidden">
+        <h2>About Us</h2>
+        <p>Quiz Crafters is a platform designed to test your knowledge with fun and engaging quizzes on different topics.</p>
+    </section>
 
-<section id="resultSection" class="hidden">
-    <h3 id="quizResult"></h3>
-    <button onclick="goToLeaderboard()">Go to Leaderboard</button>
-</section>
+    <section id="leaderboard" class="hidden">
+        <h2>Leaderboard</h2>
+        <p>Top scorers will appear here.</p>
+    </section>
+</body>
+</html>
