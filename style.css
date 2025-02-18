@@ -2,101 +2,74 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    text-align: center;
 }
 
 header {
     background-color: #333;
-    color: white;
-    padding: 15px 0;
-    text-align: center;
+    padding: 10px 0;
 }
 
-header h1 {
-    margin: 0;
-}
-
-nav ul {
-    list-style: none;
+header nav ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
     padding: 0;
-    text-align: center;
 }
 
-nav ul li {
-    display: inline;
-    margin: 0 15px;
+header nav ul li {
+    margin: 0 20px;
 }
 
-nav ul li a {
-    text-decoration: none;
+header nav ul li a {
     color: white;
-    font-size: 18px;
-    padding: 8px 12px;
-    transition: 0.3s;
+    text-decoration: none;
 }
 
-nav ul li a:hover {
-    background-color: #555;
-    border-radius: 5px;
+header nav ul li a:hover {
+    text-decoration: underline;
 }
 
 .hidden {
     display: none;
 }
 
-/* Slideshow Animation */
-.slider {
-    width: 80%;
-    margin: 20px auto;
-    overflow: hidden;
-    position: relative;
-}
-
-.slide {
-    width: 100%;
-    display: none;
-    transition: opacity 1s ease-in-out;
-}
-
-.active {
-    display: block;
-    opacity: 1;
-}
-
-#testSection select {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    font-size: 16px;
+section {
+    padding: 20px;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #333;
+    background-color: #4CAF50;
     color: white;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
 }
 
 button:hover {
-    background-color: #555;
+    background-color: #45a049;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 24px;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
-
-    nav ul li {
-        display: block;
-        margin: 10px 0;
+    to {
+        opacity: 1;
     }
+}
 
-    .slider {
-        width: 100%;
+#take-test-tab {
+    animation: bounce 0.8s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-10px);
     }
 }
