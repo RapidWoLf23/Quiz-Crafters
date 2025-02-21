@@ -5,51 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Crafters</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="javascript.js"></script>
 </head>
 <body>
 
     <!-- Header Section -->
     <header>
         <h1>Quiz Crafters</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="test.html">Test Yourself</a></li>
+            </ul>
+        </nav>
     </header>
-
-    <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            <li><a href="#" id="homeBtn">Home</a></li>
-            <li><a href="#" id="testBtn">Test Yourself</a></li>
-        </ul>
-    </nav>
 
     <!-- Main Content -->
     <main>
-        <div id="introText">
-            <p>Welcome to Quiz Crafters! Test your knowledge with a variety of quizzes.</p>
-        </div>
-
-        <!-- Test Button Section -->
-        <div id="testSection" style="display: none;">
-            <p>Choose a subject to start your test:</p>
-            <select id="subjectSelect">
-                <option value="english">English</option>
-            </select>
-            <button id="startTestBtn">Start Test</button>
-        </div>
-
-        <!-- Confirmation Modal -->
-        <div id="confirmationModal" style="display: none;">
-            <p>Are you ready to start the test?</p>
-            <button id="confirmStart">Yes, Start Test</button>
-            <button id="cancelStart">Cancel</button>
-        </div>
-        
-        <!-- Thank You Section -->
-        <div id="thankYouMessage" style="display: none;">
-            <h3>Thank you for taking the test!</h3>
-            <button id="retryTest">Retry</button>
-        </div>
+        <h2>Welcome to Quiz Crafters!</h2>
+        <p>
+            Challenge yourself with a variety of quizzes designed to test your knowledge and skills.
+            Get started by clicking <strong>"Test Yourself"</strong> and see how well you can score.
+        </p>
     </main>
+<script src="javascript.js"></script>
 
 </body>
 </html>
