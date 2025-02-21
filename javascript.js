@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let timer;
     let timeLeft = 1200; // 20 minutes in seconds
 
-    // All 50 questions (unchanged, keep your full question list here)
+    // Placeholder for questions (you can add your questions here)
     const questions = [
         { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Lisbon"], answer: "Paris" },
         { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
             timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
+            
             if (timeLeft === 0) {
                 clearInterval(timer);
                 endQuiz("Time's up!");
@@ -101,10 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Function to select 10 random questions
+    // Function to select random questions
     function startQuiz() {
         shuffleArray(questions);
-        selectedQuestions = questions.slice(0, 10);
+        selectedQuestions = questions.slice(0, 10); // You can adjust the number of questions here
         currentQuestionIndex = 0;
         score = 0;
         loadQuestion();
@@ -125,56 +125,35 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.onclick = () => checkAnswer(button, option);
                 optionsContainer.appendChild(button);
             });
-
-            // Hide next button on the last question
-            if (currentQuestionIndex === selectedQuestions.length - 1) {
-                nextBtn.style.display = "none";
-                startBtn.style.display = "block"; // Show Submit button
-                startBtn.textContent = "Submit"; // Change button text to "Submit"
-            } else {
-                nextBtn.style.display = "block";
-                startBtn.style.display = "none";
-            }
-
         } else {
-            showResults();
+            endQuiz("Congratulations! You've completed the quiz.");
         }
     }
 
-    // Function to check answer
+    // Function to check answers
     function checkAnswer(button, selectedOption) {
         const correctAnswer = selectedQuestions[currentQuestionIndex].answer;
-        Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
-
         if (selectedOption === correctAnswer) {
-            button.style.backgroundColor = "green";
             score++;
-        } else {
-            button.style.backgroundColor = "red";
         }
+        button.disabled = true; // Disable the button after selection
+        nextBtn.style.display = "block"; // Show Next button
     }
 
-    // Next button functionality
+    // Function to go to the next question
     nextBtn.addEventListener("click", function () {
-        if (quizStarted && currentQuestionIndex < selectedQuestions.length - 1) {
-            currentQuestionIndex++;
-            loadQuestion();
-        } else {
-            showResults();
-        }
+        currentQuestionIndex++;
+        nextBtn.style.display = "none"; // Hide Next button
+        loadQuestion();
     });
 
-    // Function to show results
-    function showResults() {
-        clearInterval(timer); // Stop timer when quiz ends
-        endQuiz(`Quiz Complete! Your score: ${score}/10`);
-    }
-
-    // Function to end quiz (handles both normal and timer expiration)
+    // Function to end the quiz
     function endQuiz(message) {
-        questionElement.textContent = message;
+        clearInterval(timer);
+        timerElement.textContent = message;
+        questionElement.textContent = `Your Score: ${score} / ${selectedQuestions.length}`;
         optionsContainer.innerHTML = "";
         nextBtn.style.display = "none";
-        startBtn.style.display = "none";
+        startBtn.style.display = "block"; // Optionally show the Start button to retry
     }
 });
