@@ -4,31 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Crafters</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1 onclick="location.reload();">Quiz Crafters</h1>
+        <h1 class="logo" onclick="location.reload();">Quiz Crafters</h1>
         <nav>
             <ul>
-                <li><a href="#" onclick="location.reload();">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="test.html">Test Yourself</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h2>Select a Subject:</h2>
-        <select id="subjectSelect">
-            <option value="english">English</option>
-        </select>
-        <button id="startTestBtn">OK</button>
+        <section class="intro">
+            <h2>Welcome to Quiz Crafters!</h2>
+            <p>Challenge yourself with a variety of quizzes designed to test your knowledge and skills. Get started by clicking "Test Yourself" and see how well you can score.</p>
+        </section>
     </main>
 
-    <footer>
-        <button id="suggestionBtn">Suggestion Box</button>
-    </footer>
-
-    <script src="javascript.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
