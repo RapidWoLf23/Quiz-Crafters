@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let timer;
     let timeLeft = 1200; // 20 minutes in seconds
 
-    // Placeholder for questions (you can add your questions here)
+    // All 50 questions (unchanged, keep your full question list here)
     const questions = [
         { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Lisbon"], answer: "Paris" },
         { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
         timer = setInterval(() => {
             let minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
-            timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timerElement.textContent = Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds};
             
             if (timeLeft === 0) {
                 clearInterval(timer);
@@ -101,10 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Function to select random questions
+    // Function to select 10 random questions
     function startQuiz() {
         shuffleArray(questions);
-        selectedQuestions = questions.slice(0, 10); // You can adjust the number of questions here
+        selectedQuestions = questions.slice(0, 10);
         currentQuestionIndex = 0;
         score = 0;
         loadQuestion();
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadQuestion() {
         if (currentQuestionIndex < selectedQuestions.length) {
             const currentQuestion = selectedQuestions[currentQuestionIndex];
-            questionElement.textContent = `Q${currentQuestionIndex + 1}: ${currentQuestion.question}`;
+            questionElement.textContent = Q${currentQuestionIndex + 1}: ${currentQuestion.question};
 
             optionsContainer.innerHTML = "";
             shuffleArray(currentQuestion.options);
@@ -125,35 +125,55 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.onclick = () => checkAnswer(button, option);
                 optionsContainer.appendChild(button);
             });
+
+            // Hide next button on the last question
+            if (currentQuestionIndex === selectedQuestions.length - 1) {
+                nextBtn.style.display = "none";
+                startBtn.style.display = "block"; // Show Submit button
+            } else {
+                nextBtn.style.display = "block"; 
+                startBtn.style.display = "none"; 
+            }
+
         } else {
-            endQuiz("Congratulations! You've completed the quiz.");
+            showResults();
         }
     }
 
-    // Function to check answers
+    // Function to check answer
     function checkAnswer(button, selectedOption) {
         const correctAnswer = selectedQuestions[currentQuestionIndex].answer;
+        Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
+
         if (selectedOption === correctAnswer) {
+            button.style.backgroundColor = "green"; 
             score++;
+        } else {
+            button.style.backgroundColor = "red";
         }
-        button.disabled = true; // Disable the button after selection
-        nextBtn.style.display = "block"; // Show Next button
     }
 
-    // Function to go to the next question
+    // Next button functionality
     nextBtn.addEventListener("click", function () {
-        currentQuestionIndex++;
-        nextBtn.style.display = "none"; // Hide Next button
-        loadQuestion();
+        if (quizStarted && currentQuestionIndex < selectedQuestions.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion();
+        } else {
+            showResults();
+        }
     });
 
-    // Function to end the quiz
+    // Function to show results
+    function showResults() {
+        clearInterval(timer); // Stop timer when quiz ends
+        endQuiz(Quiz Complete! Your score: ${score}/10);
+    }
+
+    // Function to end quiz (handles both normal and timer expiration)
     function endQuiz(message) {
-        clearInterval(timer);
-        timerElement.textContent = message;
-        questionElement.textContent = `Your Score: ${score} / ${selectedQuestions.length}`;
+        questionElement.textContent = message;
         optionsContainer.innerHTML = "";
         nextBtn.style.display = "none";
-        startBtn.style.display = "block"; // Optionally show the Start button to retry
+        startBtn.style.display = "none"; 
     }
 });
