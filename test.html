@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Test</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1 onclick="location.href='index.html';">Quiz Test</h1>
+        <h1 class="logo" onclick="location.href='index.html';">Quiz Test</h1>
     </header>
 
     <main>
@@ -16,7 +16,9 @@
             <p id="timer">Time Left: <span id="time">20:00</span></p>
             <div id="question-container"></div>
         </div>
+
         <button id="submitBtn">Submit</button>
+
         <div id="result-container" style="display: none;">
             <h2>Congratulations!</h2>
             <p>Your Score: <span id="score"></span>/10</p>
@@ -25,6 +27,6 @@
         </div>
     </main>
 
-    <script src="javascript.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
