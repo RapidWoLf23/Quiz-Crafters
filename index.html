@@ -4,39 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Crafters</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .navbar { background: #007BFF; padding: 10px; }
+        .navbar a { color: white; margin: 0 15px; text-decoration: none; font-size: 18px; }
+        .container { margin-top: 50px; }
+        .hidden { display: none; }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#take-test" id="take-test-tab">Take a Test</a></li>
-                <li><a href="#about-us">About Us</a></li>
-                <li><a href="#leaderboard">Leaderboard</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="navbar">
+        <a href="#" onclick="location.reload()">Home</a>
+        <a href="#" onclick="showTestPage()">Test Yourself</a>
+    </div>
+    <h1 style="font-family: cursive;">Quiz Crafters</h1>
+    
+    <div id="homePage" class="container">
+        <p>Welcome to Quiz Crafters! Click on 'Test Yourself' to begin.</p>
+    </div>
+    
+    <div id="testPage" class="container hidden">
+        <label for="subject">Select Subject:</label>
+        <select id="subject">
+            <option value="english">English</option>
+        </select>
+        <button onclick="confirmTestStart()">OK</button>
+    </div>
+    
+    <div id="quizPage" class="container hidden">
+        <p id="timer">Time Left: 20:00</p>
+        <div id="questions"></div>
+        <button onclick="submitTest()">Submit</button>
+    </div>
+    
+    <div id="resultPage" class="container hidden">
+        <p>Thank you for completing the test!</p>
+        <button onclick="showTestPage()">Retry</button>
+        <button onclick="showSuggestionBox()">Suggestion</button>
+    </div>
+    
+    <div id="suggestionBox" class="container hidden">
+        <textarea placeholder="Enter your suggestion..."></textarea>
+        <button onclick="submitSuggestion()">Submit</button>
+    </div>
+    
+    <script>
+        const questions = [
+            { q: "What is the synonym of 'Happy'?", options: ["Sad", "Joyful", "Angry", "Tired"], answer: 1 },
+            { q: "Choose the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2 },
+            { q: "What is the antonym of 'Brave'?", options: ["Courageous", "Fearful", "Bold", "Gallant"], answer: 1 },
+            { q: "Which word is a noun?", options: ["Run", "Beautiful", "Table", "Quickly"], answer: 2 },
+            { q: "What is a synonym of 'Fast'?", options: ["Slow", "Rapid", "Lazy", "Dull"], answer: 1 },
+            { q: "What is the plural of 'Mouse'?", options: ["Mouses", "Mousees", "Mice", "Mices"], answer: 2 },
+            { q: "What is the past tense of 'Sing'?", options: ["Sang", "Sung", "Sings", "Singed"], answer: 0 },
+            { q: "Which sentence is grammatically correct?", options: ["She go to school.", "They is playing.", "He has a car.", "Me am happy."], answer: 2 },
+            { q: "Which word is a verb?", options: ["Run", "Happy", "Desk", "Tall"], answer: 0 },
+            { q: "What is the opposite of 'Weak'?", options: ["Strong", "Small", "Tiny", "Big"], answer: 0 },
+            { q: "Choose the correct article: 'I saw ___ apple.'", options: ["A", "An", "The", "None"], answer: 1 },
+            { q: "What is a synonym for 'Big'?", options: ["Large", "Small", "Tiny", "Short"], answer: 0 },
+            { q: "What is the past tense of 'Go'?", options: ["Goes", "Gone", "Went", "Going"], answer: 2 },
+            { q: "Which word is a preposition?", options: ["Under", "Dog", "Happy", "Jump"], answer: 0 },
+            { q: "What is a conjunction?", options: ["And", "Run", "Apple", "Jump"], answer: 0 },
+        ];
+        
+        function shuffleQuestions() {
+            return questions.sort(() => Math.random() - 0.5).slice(0, 25);
+        }
+        
+        function showTestPage() {
+            document.getElementById("homePage").classList.add("hidden");
+            document.getElementById("testPage").classList.remove("hidden");
+        }
 
-    <section id="home">
-        <h1>Welcome to Quiz Crafters!</h1>
-        <p>Test your knowledge with quizzes on various subjects!</p>
-    </section>
-
-    <section id="take-test" class="hidden">
-        <h2>Select a Subject</h2>
-        <button onclick="startTest('English')">English Language</button>
-    </section>
-
-    <section id="about-us" class="hidden">
-        <h2>About Us</h2>
-        <p>Quiz Crafters is a platform designed to test your knowledge with fun and engaging quizzes on different topics.</p>
-    </section>
-
-    <section id="leaderboard" class="hidden">
-        <h2>Leaderboard</h2>
-        <p>Top scorers will appear here.</p>
-    </section>
+        function confirmTestStart() {
+            if (confirm("Do you want to start the test?")) {
+                startTest();
+            }
+        }
+        
+        function startTest() {
+            document.getElementById("testPage").classList.add("hidden");
+            document.getElementById("quizPage").classList.remove("hidden");
+            const questionsContainer = document.getElementById("questions");
+            questionsContainer.innerHTML = "";
+            const shuffledQuestions = shuffleQuestions();
+            shuffledQuestions.forEach((q, index) => {
+                let questionHTML = `<p>${index + 1}. ${q.q}</p>`;
+                q.options.forEach((opt, i) => {
+                    questionHTML += `<input type='radio' name='q${index}' value='${i}'> ${opt}<br>`;
+                });
+                questionsContainer.innerHTML += questionHTML;
+            });
+            startTimer();
+        }
+    </script>
 </body>
 </html>
