@@ -10,6 +10,8 @@
         .navbar a { color: white; margin: 0 15px; text-decoration: none; font-size: 18px; }
         .container { margin-top: 50px; }
         .hidden { display: none; }
+        #progressBar { width: 100%; background: #ddd; }
+        #progress { height: 20px; width: 0%; background: #4caf50; }
     </style>
 </head>
 <body>
@@ -33,12 +35,14 @@
     
     <div id="quizPage" class="container hidden">
         <p id="timer">Time Left: 20:00</p>
-        <div id="questions"></div>
-        <button onclick="submitTest()">Submit</button>
+        <div id="progressBar"><div id="progress"></div></div>
+        <div id="questionContainer"></div>
+        <button id="nextButton" onclick="nextQuestion()">Next</button>
+        <button id="submitButton" class="hidden" onclick="confirmSubmission()">Submit</button>
     </div>
     
     <div id="resultPage" class="container hidden">
-        <p>Thank you for completing the test!</p>
+        <p id="scoreMessage"></p>
         <button onclick="showTestPage()">Retry</button>
         <button onclick="showSuggestionBox()">Suggestion</button>
     </div>
@@ -53,24 +57,28 @@
             { q: "What is the synonym of 'Happy'?", options: ["Sad", "Joyful", "Angry", "Tired"], answer: 1 },
             { q: "Choose the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2 },
             { q: "What is the antonym of 'Brave'?", options: ["Courageous", "Fearful", "Bold", "Gallant"], answer: 1 },
-            { q: "Which word is a noun?", options: ["Run", "Beautiful", "Table", "Quickly"], answer: 2 },
-            { q: "What is a synonym of 'Fast'?", options: ["Slow", "Rapid", "Lazy", "Dull"], answer: 1 },
-            { q: "What is the plural of 'Mouse'?", options: ["Mouses", "Mousees", "Mice", "Mices"], answer: 2 },
-            { q: "What is the past tense of 'Sing'?", options: ["Sang", "Sung", "Sings", "Singed"], answer: 0 },
-            { q: "Which sentence is grammatically correct?", options: ["She go to school.", "They is playing.", "He has a car.", "Me am happy."], answer: 2 },
-            { q: "Which word is a verb?", options: ["Run", "Happy", "Desk", "Tall"], answer: 0 },
-            { q: "What is the opposite of 'Weak'?", options: ["Strong", "Small", "Tiny", "Big"], answer: 0 },
-            { q: "Choose the correct article: 'I saw ___ apple.'", options: ["A", "An", "The", "None"], answer: 1 },
-            { q: "What is a synonym for 'Big'?", options: ["Large", "Small", "Tiny", "Short"], answer: 0 },
-            { q: "What is the past tense of 'Go'?", options: ["Goes", "Gone", "Went", "Going"], answer: 2 },
-            { q: "Which word is a preposition?", options: ["Under", "Dog", "Happy", "Jump"], answer: 0 },
-            { q: "What is a conjunction?", options: ["And", "Run", "Apple", "Jump"], answer: 0 },
+            { q: "Which word is a noun?", options: ["Run", "Beautiful", "Table", "Quickly"], answer: 2 }
         ];
+        
+        let shuffledQuestions, currentQuestionIndex = 0, score = 0, answers = [];
+        let timeLeft = 1200, timerInterval;
         
         function shuffleQuestions() {
             return questions.sort(() => Math.random() - 0.5).slice(0, 25);
         }
-        
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    confirmSubmission();
+                } else {
+                    timeLeft--;
+                    document.getElementById("timer").innerText = `Time Left: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
         function showTestPage() {
             document.getElementById("homePage").classList.add("hidden");
             document.getElementById("testPage").classList.remove("hidden");
@@ -85,17 +93,54 @@
         function startTest() {
             document.getElementById("testPage").classList.add("hidden");
             document.getElementById("quizPage").classList.remove("hidden");
-            const questionsContainer = document.getElementById("questions");
-            questionsContainer.innerHTML = "";
-            const shuffledQuestions = shuffleQuestions();
-            shuffledQuestions.forEach((q, index) => {
-                let questionHTML = `<p>${index + 1}. ${q.q}</p>`;
-                q.options.forEach((opt, i) => {
-                    questionHTML += `<input type='radio' name='q${index}' value='${i}'> ${opt}<br>`;
-                });
-                questionsContainer.innerHTML += questionHTML;
-            });
+            shuffledQuestions = shuffleQuestions();
+            currentQuestionIndex = 0;
+            answers = new Array(shuffledQuestions.length).fill(null);
             startTimer();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const questionContainer = document.getElementById("questionContainer");
+            const q = shuffledQuestions[currentQuestionIndex];
+            let questionHTML = `<p>${currentQuestionIndex + 1}. ${q.q}</p>`;
+            q.options.forEach((opt, i) => {
+                questionHTML += `<input type='radio' name='q${currentQuestionIndex}' value='${i}' onclick='selectAnswer(${i})'> ${opt}<br>`;
+            });
+            questionContainer.innerHTML = questionHTML;
+            document.getElementById("progress").style.width = `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`;
+        }
+
+        function selectAnswer(option) {
+            answers[currentQuestionIndex] = option;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < shuffledQuestions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            }
+            if (currentQuestionIndex === shuffledQuestions.length - 1) {
+                document.getElementById("nextButton").classList.add("hidden");
+                document.getElementById("submitButton").classList.remove("hidden");
+            }
+        }
+
+        function confirmSubmission() {
+            if (answers.includes(null)) {
+                if (!confirm("You have unanswered questions. If you submit now, unanswered ones will not be reviewed. Are you sure?")) {
+                    return;
+                }
+            }
+            submitTest();
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            score = answers.reduce((sum, ans, index) => sum + (ans === shuffledQuestions[index].answer ? 1 : 0), 0);
+            document.getElementById("scoreMessage").innerText = `Your score: ${score} / ${shuffledQuestions.length}`;
+            document.getElementById("quizPage").classList.add("hidden");
+            document.getElementById("resultPage").classList.remove("hidden");
         }
     </script>
 </body>
