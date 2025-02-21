@@ -26,81 +26,101 @@ document.addEventListener("DOMContentLoaded", function () {
         { question: "What is the meaning of 'gregarious'?", options: ["Shy", "Sociable", "Angry", "Lazy"], answer: "Sociable" },
         { question: "Which of these is a modal verb?", options: ["Run", "Can", "Jump", "Quickly"], answer: "Can" }
     ];
-// Shuffle function
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
 
-shuffleArray(questions); // Shuffle the questions
-
-let currentQuestionIndex = 0;
-let score = 0;
-let timeLeft = 120; // 2-minute timer
-let timerInterval;
-
-const questionElement = document.getElementById("question");
-const optionsElement = document.getElementById("options");
-const submitButton = document.getElementById("submit");
-const resultElement = document.getElementById("result");
-const timerElement = document.getElementById("timer");
-
-// Start Timer
-function startTimer() {
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        timerElement.textContent = `Time Left: ${timeLeft}s`;
-
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            endQuiz();
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
-    }, 1000);
-}
-
-// Display question
-function displayQuestion() {
-    if (currentQuestionIndex >= questions.length) {
-        endQuiz();
-        return;
     }
 
-    let currentQuestion = questions[currentQuestionIndex];
-    questionElement.textContent = currentQuestion.question;
-    optionsElement.innerHTML = "";
+    shuffleArray(questions);
 
-    currentQuestion.options.forEach(option => {
-        let button = document.createElement("button");
-        button.textContent = option;
-        button.classList.add("option-btn");
-        button.onclick = () => selectAnswer(option);
-        optionsElement.appendChild(button);
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timeLeft = 120;
+    let timerInterval;
+    let selectedAnswer = null;
+
+    const questionElement = document.getElementById("question");
+    const optionsElement = document.getElementById("options");
+    const submitButton = document.getElementById("submit");
+    const nextButton = document.getElementById("next");
+    const resultElement = document.getElementById("result");
+    const timerElement = document.getElementById("timer");
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = `Time Left: ${timeLeft}s`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                endQuiz();
+            }
+        }, 1000);
+    }
+
+    function displayQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            endQuiz();
+            return;
+        }
+
+        let currentQuestion = questions[currentQuestionIndex];
+        questionElement.textContent = currentQuestion.question;
+        optionsElement.innerHTML = "";
+        selectedAnswer = null;
+
+        currentQuestion.options.forEach(option => {
+            let button = document.createElement("button");
+            button.textContent = option;
+            button.classList.add("option-btn");
+            button.onclick = () => selectAnswer(button, option);
+            optionsElement.appendChild(button);
+        });
+
+        nextButton.style.display = "none"; // Hide "Next" button initially
+    }
+
+    function selectAnswer(button, selected) {
+        let correct = questions[currentQuestionIndex].answer;
+        selectedAnswer = selected;
+
+        // Remove highlight from all buttons
+        document.querySelectorAll(".option-btn").forEach(btn => {
+            btn.style.backgroundColor = "";
+        });
+
+        // Highlight selected option
+        if (selected === correct) {
+            button.style.backgroundColor = "green";
+        } else {
+            button.style.backgroundColor = "red";
+        }
+
+        nextButton.style.display = "block"; // Show "Next" button after selecting an option
+    }
+
+    nextButton.addEventListener("click", () => {
+        if (selectedAnswer === questions[currentQuestionIndex].answer) {
+            score++;
+        }
+        currentQuestionIndex++;
+        displayQuestion();
     });
-}
 
-// Select answer
-function selectAnswer(selected) {
-    let correct = questions[currentQuestionIndex].answer;
-    if (selected === correct) {
-        score++;
+    function endQuiz() {
+        clearInterval(timerInterval);
+        questionElement.textContent = "Quiz Over!";
+        optionsElement.innerHTML = `Your Score: ${score}/${questions.length}`;
+        submitButton.style.display = "none";
+        nextButton.style.display = "none";
     }
-    currentQuestionIndex++;
-    displayQuestion();
-}
 
-// End Quiz
-function endQuiz() {
-    clearInterval(timerInterval);
-    questionElement.textContent = "Quiz Over!";
-    optionsElement.innerHTML = `Your Score: ${score}/${questions.length}`;
-    submitButton.style.display = "none";
-}
-
-// Start the quiz
-submitButton.addEventListener("click", () => {
-    startTimer();
-    submitButton.style.display = "none";
-    displayQuestion();
+    submitButton.addEventListener("click", () => {
+        startTimer();
+        submitButton.style.display = "none";
+        displayQuestion();
+    });
 });
