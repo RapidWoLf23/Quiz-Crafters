@@ -8,24 +8,22 @@
     <script defer src="script.js"></script>
 </head>
 <body>
+
+    <!-- Header Section -->
     <header>
         <h1>Quiz Test</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="test.html">Test Yourself</a></li>
-            </ul>
-        </nav>
     </header>
 
+    <!-- Quiz Content -->
     <main>
-        <h2>Answer the questions below:</h2>
         <p id="timer">Time Left: 20:00</p>
         
-        <form id="quizForm">
-            <div id="questions-container"></div>
-            <button type="submit">Submit</button>
-        </form>
+        <h2 id="question">Question appears here</h2>
+        <div id="options"></div>
+
+        <!-- Submit & Next Buttons -->
+        <button id="submit">Start Quiz</button>
+        <button id="next" style="display: none;">Next</button>
 
         <div id="result" style="display: none;">
             <h3>Thank you for completing the quiz!</h3>
@@ -33,5 +31,6 @@
             <button onclick="location.reload()">Retry</button>
         </div>
     </main>
+
 </body>
 </html>
