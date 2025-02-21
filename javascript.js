@@ -26,21 +26,81 @@ document.addEventListener("DOMContentLoaded", function () {
         { question: "What is the meaning of 'gregarious'?", options: ["Shy", "Sociable", "Angry", "Lazy"], answer: "Sociable" },
         { question: "Which of these is a modal verb?", options: ["Run", "Can", "Jump", "Quickly"], answer: "Can" }
     ];
+// Shuffle function
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
-    // Function to shuffle questions and select 10 random ones
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+shuffleArray(questions); // Shuffle the questions
+
+let currentQuestionIndex = 0;
+let score = 0;
+let timeLeft = 120; // 2-minute timer
+let timerInterval;
+
+const questionElement = document.getElementById("question");
+const optionsElement = document.getElementById("options");
+const submitButton = document.getElementById("submit");
+const resultElement = document.getElementById("result");
+const timerElement = document.getElementById("timer");
+
+// Start Timer
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = `Time Left: ${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endQuiz();
         }
-        return array;
+    }, 1000);
+}
+
+// Display question
+function displayQuestion() {
+    if (currentQuestionIndex >= questions.length) {
+        endQuiz();
+        return;
     }
 
-    // Start the test
-    function startTest() {
-        let selectedQuestions = shuffle([...questions]).slice(0, 10);
-        console.log("Selected Questions:", selectedQuestions); // Debugging check
-    }
+    let currentQuestion = questions[currentQuestionIndex];
+    questionElement.textContent = currentQuestion.question;
+    optionsElement.innerHTML = "";
 
-    startTest(); // Run the test when the script loads
+    currentQuestion.options.forEach(option => {
+        let button = document.createElement("button");
+        button.textContent = option;
+        button.classList.add("option-btn");
+        button.onclick = () => selectAnswer(option);
+        optionsElement.appendChild(button);
+    });
+}
+
+// Select answer
+function selectAnswer(selected) {
+    let correct = questions[currentQuestionIndex].answer;
+    if (selected === correct) {
+        score++;
+    }
+    currentQuestionIndex++;
+    displayQuestion();
+}
+
+// End Quiz
+function endQuiz() {
+    clearInterval(timerInterval);
+    questionElement.textContent = "Quiz Over!";
+    optionsElement.innerHTML = `Your Score: ${score}/${questions.length}`;
+    submitButton.style.display = "none";
+}
+
+// Start the quiz
+submitButton.addEventListener("click", () => {
+    startTimer();
+    submitButton.style.display = "none";
+    displayQuestion();
 });
