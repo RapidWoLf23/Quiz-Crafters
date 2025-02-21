@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Crafters</title>
+    <title>Quiz Test</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="javascript.js"></script>
 </head>
 <body>
 
     <!-- Header Section -->
     <header>
-        <h1>Quiz Crafters</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="test.html">Test Yourself</a></li>
-            </ul>
-        </nav>
+        <h1>Quiz Test</h1>
     </header>
 
-    <!-- Main Content -->
+    <!-- Quiz Content -->
     <main>
-        <h2>Welcome to Quiz Crafters!</h2>
-        <p>
-            Challenge yourself with a variety of quizzes designed to test your knowledge and skills.
-            Get started by clicking <strong>"Test Yourself"</strong> and see how well you can score.
-        </p>
+        <p id="timer">Time Left: 20:00</p>
+        
+        <h2 id="question">Question appears here</h2>
+        <div id="options"></div>
+
+        <!-- Buttons -->
+        <button id="submit">Start Quiz</button>
+        <button id="next" style="display: none;">Next</button>
+        <button id="finish" style="display: none;">Submit Quiz</button>
+
+        <!-- Result Section -->
+        <div id="result" style="display: none;">
+            <h3>Thank you for completing the quiz!</h3>
+            <p>Your score: <span id="score">0</span>/10</p>
+            <button onclick="location.reload()">Retry</button>
+        </div>
     </main>
-<script src="javascript.js"></script>
 
 </body>
 </html>
