@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz - Quiz Crafters</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Quiz Test</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Quiz Time!</h1>
-        <div id="timer">Time Left: 20:00</div>
+        <h1>Quiz Test</h1>
     </header>
 
     <main>
-        <div id="quizContainer">
-            <div id="questionContainer"></div>
-            <button id="nextBtn" onclick="nextQuestion()">Next</button>
+        <div id="quiz-container">
+            <p id="timer">Time Left: <span id="time">20:00</span></p>
+            <div id="question-container"></div>
+            <button id="submitBtn">Submit</button>
         </div>
-        <div id="progressBar"><div id="progress"></div></div>
-        <button id="submitBtn" onclick="submitTest()">Submit</button>
+        <div id="result-container" style="display: none;">
+            <h2>Congratulations!</h2>
+            <p>Thank you for taking the test.</p>
+            <button id="retryBtn">Retry</button>
+        </div>
     </main>
 
-    <footer>
-        <p id="thankYouMessage" style="display: none;">🎉 Congratulations! Thank you for taking the test! 🎉</p>
-        <button id="retryBtn" onclick="retryTest()" style="display: none;">Retry</button>
-    </footer>
-
-    <script src="script.js"></script>
+    <script src="javascript.js"></script>
 </body>
 </html>
