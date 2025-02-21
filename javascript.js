@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
             timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            
+
             if (timeLeft === 0) {
                 clearInterval(timer);
                 endQuiz("Time's up!");
@@ -130,9 +130,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (currentQuestionIndex === selectedQuestions.length - 1) {
                 nextBtn.style.display = "none";
                 startBtn.style.display = "block"; // Show Submit button
+                startBtn.textContent = "Submit"; // Change button text to "Submit"
             } else {
-                nextBtn.style.display = "block"; 
-                startBtn.style.display = "none"; 
+                nextBtn.style.display = "block";
+                startBtn.style.display = "none";
             }
 
         } else {
@@ -146,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
 
         if (selectedOption === correctAnswer) {
-            button.style.backgroundColor = "green"; 
+            button.style.backgroundColor = "green";
             score++;
         } else {
             button.style.backgroundColor = "red";
@@ -174,6 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
         questionElement.textContent = message;
         optionsContainer.innerHTML = "";
         nextBtn.style.display = "none";
-        startBtn.style.display = "none"; 
+        startBtn.style.display = "none";
     }
 });
