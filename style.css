@@ -1,110 +1,87 @@
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #eaf2ff;
     margin: 0;
     padding: 0;
+    text-align: center;
+    background-color: #f8f9fa;
 }
 
-/* Header */
+/* Header Styles */
 header {
-    background: #007BFF;
+    background-color: #343a40;
     color: white;
     padding: 15px;
     font-size: 24px;
-    text-align: center;
 }
 
-/* Center Logo */
-h1.logo {
-    cursor: pointer;
-    margin: 0 auto;
-}
-
-/* Navigation Bar */
 nav ul {
     list-style-type: none;
     padding: 0;
-    margin: 0;
 }
 
 nav ul li {
     display: inline;
-    margin: 10px;
+    margin: 0 15px;
 }
 
 nav ul li a {
-    text-decoration: none;
     color: white;
-    font-size: 18px;
-    padding: 8px 12px;
-    transition: 0.3s;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 nav ul li a:hover {
-    background: rgba(255, 255, 255, 0.2);
+    text-decoration: underline;
+}
+
+/* Main Content */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Quiz Form */
+#quizForm {
+    text-align: left;
+}
+
+#quizForm div {
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
     border-radius: 5px;
 }
 
-/* Intro Section */
-.intro {
-    margin: 50px auto;
-    width: 60%;
-    background: white;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Quiz Container */
-#quiz-container {
-    background: white;
-    padding: 20px;
-    margin: 20px auto;
-    width: 50%;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+button:hover {
+    background-color: #0056b3;
 }
 
 /* Timer */
 #timer {
     font-size: 18px;
-    color: red;
+    font-weight: bold;
+    color: #dc3545;
 }
 
-/* Buttons */
-button {
-    padding: 12px 18px;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-    background-color: #FF8800; /* Bright orange for better visibility */
-    color: white;
-    border: none;
-    border-radius: 5px;
+/* Result Section */
+#result {
+    margin-top: 20px;
+    font-size: 20px;
     font-weight: bold;
 }
 
-button:hover {
-    background-color: #CC6600; /* Darker orange on hover */
-}
-
-/* Result Container */
-#result-container {
-    display: none;
-    background: white;
-    padding: 20px;
-    margin: 20px auto;
-    width: 50%;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-#result-container {
-    animation: fadeIn 1s ease-in-out;
+#result h3 {
+    color: #28a745;
 }
