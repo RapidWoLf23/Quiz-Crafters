@@ -3,36 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Crafters</title>
-    <link rel="stylesheet" href="style.css"> <!-- External CSS -->
+    <title>Quiz Test</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Quiz Crafters</h1>
-        <nav>
-            <ul>
-                <li><a href="#" onclick="location.reload();">Home</a></li>
-                <li><a href="test.html" id="testLink">Test Yourself</a></li>
-            </ul>
-        </nav>
+        <h1>Quiz Test</h1>
     </header>
 
     <main>
-        <h2>Welcome to Quiz Crafters!</h2>
-        <p>Test your knowledge with our fun quizzes. Click "Test Yourself" to begin.</p>
+        <div id="quiz-container">
+            <p id="timer">Time Left: <span id="time">20:00</span></p>
+            <div id="question-container"></div>
+            <button id="nextBtn" style="display: none;">Next</button>
+            <button id="submitBtn" style="display: none;">Submit</button>
+        </div>
+        <div id="result-container" style="display: none;">
+            <h2>Your Score: <span id="finalScore">0</span>/10</h2>
+            <p>🎉 Congratulations! Thank you for taking the test. 🎉</p>
+            <button id="retryBtn">Retry</button>
+        </div>
     </main>
 
-    <footer>
-        <button id="suggestionBtn">Suggestion Box</button>
-    </footer>
-
-    <script>
-        // Add confirmation before navigating to the test page
-        document.getElementById("testLink").addEventListener("click", function (event) {
-            if (!confirm("Are you sure you want to start the test? Once started, you cannot abort it.")) {
-                event.preventDefault(); // Prevent navigation if user cancels
-            }
-        });
-    </script>
+    <script src="javascript.js"></script>
 </body>
 </html>
