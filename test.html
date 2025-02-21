@@ -6,6 +6,7 @@
     <title>Quiz Test</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="javascript.js"></script>
+
 </head>
 <body>
 
@@ -22,15 +23,15 @@
         <div id="options"></div>
 
         <!-- Buttons -->
-        <button id="submit" style="background-color: yellow; color: black;">Start Quiz</button>
-        <button id="next" style="display: none; background-color: yellow; color: black;">Next</button>
-        <button id="finish" style="display: none; background-color: yellow; color: black;">Submit Quiz</button>
+        <button id="submit">Start Quiz</button>
+        <button id="next" style="display: none;">Next</button>
+        <button id="finish" style="display: none;">Submit Quiz</button>
 
         <!-- Result Section -->
         <div id="result" style="display: none;">
             <h3>Thank you for completing the quiz!</h3>
             <p>Your score: <span id="score">0</span>/10</p>
-            <button onclick="location.reload()" style="background-color: yellow; color: black;">Retry</button>
+            <button onclick="location.reload()">Retry</button>
         </div>
     </main>
 
