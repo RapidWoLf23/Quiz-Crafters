@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { question: "Which of these is a synonym for 'big'?", options: ["Small", "Large", "Tiny", "Little"], answer: "Large" }
     ];
 
+
     let selectedQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
@@ -61,9 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const questionContainer = document.getElementById("question-container");
     const submitBtn = document.getElementById("submitBtn");
+    const nextBtn = document.getElementById("nextBtn");
     const resultContainer = document.getElementById("result-container");
     const retryBtn = document.getElementById("retryBtn");
     const timerElement = document.getElementById("time");
+    const finalScoreElement = document.getElementById("finalScore");
 
     // Shuffle function to randomize questions
     function shuffle(array) {
@@ -84,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         questionContainer.style.display = "block";
         resultContainer.style.display = "none";
         submitBtn.style.display = "none";
+        nextBtn.style.display = "block";
 
         startTimer();
         displayQuestion();
@@ -115,7 +119,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (currentQuestionIndex === selectedQuestions.length - 1) {
-            submitBtn.style.display = "block"; // Show submit button on the last question
+            nextBtn.style.display = "none";
+            submitBtn.style.display = "block";
+        } else {
+            nextBtn.style.display = "block";
+            submitBtn.style.display = "none";
         }
     }
 
@@ -144,12 +152,15 @@ document.addEventListener("DOMContentLoaded", function () {
         clearInterval(timerInterval);
         questionContainer.style.display = "none";
         submitBtn.style.display = "none";
+        nextBtn.style.display = "none";
 
+        finalScoreElement.textContent = score;
         resultContainer.innerHTML = `<h2>Your Score: ${score}/10</h2><p>🎉 Congratulations! Thank you for taking the test. 🎉</p>`;
         resultContainer.style.display = "block";
     }
 
     // Event listeners
+    nextBtn.addEventListener("click", nextQuestion);
     submitBtn.addEventListener("click", endQuiz);
     retryBtn.addEventListener("click", startTest);
 
