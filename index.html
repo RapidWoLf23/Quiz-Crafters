@@ -4,144 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Crafters</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .navbar { background: #007BFF; padding: 10px; }
-        .navbar a { color: white; margin: 0 15px; text-decoration: none; font-size: 18px; }
-        .container { margin-top: 50px; }
-        .hidden { display: none; }
-        #progressBar { width: 100%; background: #ddd; }
-        #progress { height: 20px; width: 0%; background: #4caf50; }
-    </style>
+    <link rel="stylesheet" href="styles.css"> <!-- External CSS -->
 </head>
 <body>
-    <div class="navbar">
-        <a href="#" onclick="location.reload()">Home</a>
-        <a href="#" onclick="showTestPage()">Test Yourself</a>
-    </div>
-    <h1 style="font-family: cursive;">Quiz Crafters</h1>
-    
-    <div id="homePage" class="container">
-        <p>Welcome to Quiz Crafters! Click on 'Test Yourself' to begin.</p>
-    </div>
-    
-    <div id="testPage" class="container hidden">
-        <label for="subject">Select Subject:</label>
-        <select id="subject">
+    <header>
+        <h1>Quiz Crafters</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="location.reload();">Home</a></li>
+                <li><a href="test.html">Test Yourself</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Select a Subject:</h2>
+        <select id="subjectSelect">
             <option value="english">English</option>
         </select>
-        <button onclick="confirmTestStart()">OK</button>
-    </div>
-    
-    <div id="quizPage" class="container hidden">
-        <p id="timer">Time Left: 20:00</p>
-        <div id="progressBar"><div id="progress"></div></div>
-        <div id="questionContainer"></div>
-        <button id="nextButton" onclick="nextQuestion()">Next</button>
-        <button id="submitButton" class="hidden" onclick="confirmSubmission()">Submit</button>
-    </div>
-    
-    <div id="resultPage" class="container hidden">
-        <p id="scoreMessage"></p>
-        <button onclick="showTestPage()">Retry</button>
-        <button onclick="showSuggestionBox()">Suggestion</button>
-    </div>
-    
-    <div id="suggestionBox" class="container hidden">
-        <textarea placeholder="Enter your suggestion..."></textarea>
-        <button onclick="submitSuggestion()">Submit</button>
-    </div>
-    
-    <script>
-        const questions = [
-            { q: "What is the synonym of 'Happy'?", options: ["Sad", "Joyful", "Angry", "Tired"], answer: 1 },
-            { q: "Choose the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2 },
-            { q: "What is the antonym of 'Brave'?", options: ["Courageous", "Fearful", "Bold", "Gallant"], answer: 1 },
-            { q: "Which word is a noun?", options: ["Run", "Beautiful", "Table", "Quickly"], answer: 2 }
-        ];
-        
-        let shuffledQuestions, currentQuestionIndex = 0, score = 0, answers = [];
-        let timeLeft = 1200, timerInterval;
-        
-        function shuffleQuestions() {
-            return questions.sort(() => Math.random() - 0.5).slice(0, 25);
-        }
+        <button id="startTestBtn" onclick="confirmStart()">OK</button>
+    </main>
 
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    confirmSubmission();
-                } else {
-                    timeLeft--;
-                    document.getElementById("timer").innerText = `Time Left: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
-                }
-            }, 1000);
-        }
+    <footer>
+        <button id="suggestionBtn" onclick="openSuggestionBox()">Suggestion Box</button>
+    </footer>
 
-        function showTestPage() {
-            document.getElementById("homePage").classList.add("hidden");
-            document.getElementById("testPage").classList.remove("hidden");
-        }
-
-        function confirmTestStart() {
-            if (confirm("Do you want to start the test?")) {
-                startTest();
-            }
-        }
-        
-        function startTest() {
-            document.getElementById("testPage").classList.add("hidden");
-            document.getElementById("quizPage").classList.remove("hidden");
-            shuffledQuestions = shuffleQuestions();
-            currentQuestionIndex = 0;
-            answers = new Array(shuffledQuestions.length).fill(null);
-            startTimer();
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const questionContainer = document.getElementById("questionContainer");
-            const q = shuffledQuestions[currentQuestionIndex];
-            let questionHTML = `<p>${currentQuestionIndex + 1}. ${q.q}</p>`;
-            q.options.forEach((opt, i) => {
-                questionHTML += `<input type='radio' name='q${currentQuestionIndex}' value='${i}' onclick='selectAnswer(${i})'> ${opt}<br>`;
-            });
-            questionContainer.innerHTML = questionHTML;
-            document.getElementById("progress").style.width = `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`;
-        }
-
-        function selectAnswer(option) {
-            answers[currentQuestionIndex] = option;
-        }
-
-        function nextQuestion() {
-            if (currentQuestionIndex < shuffledQuestions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion();
-            }
-            if (currentQuestionIndex === shuffledQuestions.length - 1) {
-                document.getElementById("nextButton").classList.add("hidden");
-                document.getElementById("submitButton").classList.remove("hidden");
-            }
-        }
-
-        function confirmSubmission() {
-            if (answers.includes(null)) {
-                if (!confirm("You have unanswered questions. If you submit now, unanswered ones will not be reviewed. Are you sure?")) {
-                    return;
-                }
-            }
-            submitTest();
-        }
-
-        function submitTest() {
-            clearInterval(timerInterval);
-            score = answers.reduce((sum, ans, index) => sum + (ans === shuffledQuestions[index].answer ? 1 : 0), 0);
-            document.getElementById("scoreMessage").innerText = `Your score: ${score} / ${shuffledQuestions.length}`;
-            document.getElementById("quizPage").classList.add("hidden");
-            document.getElementById("resultPage").classList.remove("hidden");
-        }
-    </script>
+    <script src="script.js"></script> <!-- External JavaScript -->
 </body>
 </html>
