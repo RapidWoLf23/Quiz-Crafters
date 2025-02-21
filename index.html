@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Test</title>
+    <title>Quiz Crafters</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Quiz Test</h1>
+        <h1 onclick="location.reload();">Quiz Crafters</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="location.reload();">Home</a></li>
+                <li><a href="test.html">Test Yourself</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-        <div id="quiz-container">
-            <p id="timer">Time Left: <span id="time">20:00</span></p>
-            <div id="question-container"></div>
-            <button id="nextBtn" style="display: none;">Next</button>
-            <button id="submitBtn" style="display: none;">Submit</button>
-        </div>
-        <div id="result-container" style="display: none;">
-            <h2>Your Score: <span id="finalScore">0</span>/10</h2>
-            <p>🎉 Congratulations! Thank you for taking the test. 🎉</p>
-            <button id="retryBtn">Retry</button>
-        </div>
+        <h2>Select a Subject:</h2>
+        <select id="subjectSelect">
+            <option value="english">English</option>
+        </select>
+        <button id="startTestBtn">OK</button>
     </main>
+
+    <footer>
+        <button id="suggestionBtn">Suggestion Box</button>
+    </footer>
 
     <script src="javascript.js"></script>
 </body>
