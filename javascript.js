@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 50 Questions Array (Inserted as requested)
-    let questions = [
+    const startBtn = document.getElementById("submit"); // Start Quiz button
+    const nextBtn = document.getElementById("next"); // Next button
+    const questionElement = document.getElementById("question"); // Question display
+    const optionsContainer = document.getElementById("options"); // Options display
+
+    let currentQuestionIndex = 0;
+    let quizStarted = false;
+
+    // Sample questions (Replace with your actual questions)
+    const questions = [
         { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Lisbon"], answer: "Paris" },
         { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
         { question: "What is the past tense of 'go'?", options: ["Went", "Gone", "Goed", "Going"], answer: "Went" },
@@ -24,103 +32,81 @@ document.addEventListener("DOMContentLoaded", function () {
         { question: "What is the past participle of 'eat'?", options: ["Ate", "Eaten", "Eating", "Eats"], answer: "Eaten" },
         { question: "Which of these is an example of alliteration?", options: ["She sells seashells by the seashore.", "The cat sat on the mat.", "I am so tired.", "Run as fast as you can."], answer: "She sells seashells by the seashore." },
         { question: "What is the meaning of 'gregarious'?", options: ["Shy", "Sociable", "Angry", "Lazy"], answer: "Sociable" },
-        { question: "Which of these is a modal verb?", options: ["Run", "Can", "Jump", "Quickly"], answer: "Can" }
+        { question: "Which of these is a modal verb?", options: ["Run", "Can", "Jump", "Quickly"], answer: "Can" },
+        { question: "What is the plural of 'mouse' (the animal)?", options: ["Mouses", "Mice", "Mousees", "Mices"], answer: "Mice" },
+        { question: "Which of these is an example of a metaphor?", options: ["Her smile was a ray of sunshine.", "She is as sweet as sugar.", "The wind howled.", "The stars twinkled."], answer: "Her smile was a ray of sunshine." },
+        { question: "What is the meaning of 'meticulous'?", options: ["Careless", "Detailed", "Lazy", "Angry"], answer: "Detailed" },
+        { question: "Which word is an adverb?", options: ["Quickly", "Run", "Happy", "Sun"], answer: "Quickly" },
+        { question: "What is the opposite of 'victory'?", options: ["Success", "Defeat", "Win", "Triumph"], answer: "Defeat" },
+        { question: "Which of these is a synonym for 'brave'?", options: ["Cowardly", "Fearful", "Courageous", "Timid"], answer: "Courageous" },
+        { question: "What is the meaning of 'ambiguous'?", options: ["Clear", "Unclear", "Happy", "Sad"], answer: "Unclear" },
+        { question: "Which of these is an example of personification?", options: ["The wind whispered through the trees.", "The cat sat on the mat.", "She is as tall as a tree.", "The sun is a golden ball."], answer: "The wind whispered through the trees." },
+        { question: "What is the plural of 'leaf'?", options: ["Leafs", "Leaves", "Leafes", "Leafies"], answer: "Leaves" },
+        { question: "Which of these is a synonym for 'angry'?", options: ["Happy", "Furious", "Calm", "Sad"], answer: "Furious" },
+        { question: "What is the meaning of 'nostalgia'?", options: ["Fear of the future", "Longing for the past", "Happiness", "Anger"], answer: "Longing for the past" },
+        { question: "Which of these is an example of a simile?", options: ["Her eyes were stars.", "She is as brave as a lion.", "The wind howled.", "The sun smiled."], answer: "She is as brave as a lion." },
+        { question: "What is the plural of 'knife'?", options: ["Knifes", "Knives", "Knifees", "Knivies"], answer: "Knives" },
+        { question: "Which of these is a synonym for 'sad'?", options: ["Happy", "Joyful", "Miserable", "Excited"], answer: "Miserable" },
+        { question: "What is the meaning of 'resilient'?", options: ["Fragile", "Strong", "Weak", "Flexible"], answer: "Flexible" },
+        { question: "Which of these is an example of hyperbole?", options: ["I'm so hungry I could eat a horse.", "The sky is blue.", "She is tall.", "The cat sat on the mat."], answer: "I'm so hungry I could eat a horse." },
+        { question: "What is the plural of 'deer'?", options: ["Deers", "Deer", "Deeres", "Deeries"], answer: "Deer" },
+        { question: "Which of these is a synonym for 'smart'?", options: ["Dumb", "Intelligent", "Slow", "Lazy"], answer: "Intelligent" },
+        { question: "What is the meaning of 'verbose'?", options: ["Concise", "Wordy", "Quiet", "Loud"], answer: "Wordy" },
+        { question: "Which of these is an example of onomatopoeia?", options: ["Buzz", "Run", "Happy", "Sun"], answer: "Buzz" },
+        { question: "What is the plural of 'sheep'?", options: ["Sheeps", "Sheep", "Sheepes", "Sheepies"], answer: "Sheep" },
+        { question: "Which of these is a synonym for 'quick'?", options: ["Slow", "Fast", "Lazy", "Angry"], answer: "Fast" },
+        { question: "What is the meaning of 'altruistic'?", options: ["Selfish", "Selfless", "Angry", "Lazy"], answer: "Selfless" },
+        { question: "Which of these is an example of irony?", options: ["A fire station burns down.", "The sky is blue.", "She is tall.", "The cat sat on the mat."], answer: "A fire station burns down." },
+        { question: "What is the plural of 'fish'?", options: ["Fishs", "Fish", "Fishes", "Fishies"], answer: "Fish" },
+        { question: "Which of these is a synonym for 'big'?", options: ["Small", "Large", "Tiny", "Little"], answer: "Large" }
     ];
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+    // Function to start quiz with confirmation
+    startBtn.addEventListener("click", function () {
+        let confirmStart = confirm("Are you sure you want to start the quiz?");
+        if (confirmStart) {
+            quizStarted = true;
+            startBtn.style.display = "none"; // Hide start button
+            nextBtn.style.display = "block"; // Show next button
+            loadQuestion();
         }
-    }
+    });
 
-    shuffleArray(questions);
-
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let timeLeft = 120;
-    let timerInterval;
-    let selectedAnswer = null;
-
-    const questionElement = document.getElementById("question");
-    const optionsElement = document.getElementById("options");
-    const submitButton = document.getElementById("submit");
-    const nextButton = document.getElementById("next");
-    const resultElement = document.getElementById("result");
-    const timerElement = document.getElementById("timer");
-
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = `Time Left: ${timeLeft}s`;
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                endQuiz();
-            }
-        }, 1000);
-    }
-
-    function displayQuestion() {
-        if (currentQuestionIndex >= questions.length) {
-            endQuiz();
-            return;
-        }
-
-        let currentQuestion = questions[currentQuestionIndex];
-        questionElement.textContent = currentQuestion.question;
-        optionsElement.innerHTML = "";
-        selectedAnswer = null;
-
-        currentQuestion.options.forEach(option => {
-            let button = document.createElement("button");
-            button.textContent = option;
-            button.classList.add("option-btn");
-            button.onclick = () => selectAnswer(button, option);
-            optionsElement.appendChild(button);
-        });
-
-        nextButton.style.display = "none"; // Hide "Next" button initially
-    }
-
-    function selectAnswer(button, selected) {
-        let correct = questions[currentQuestionIndex].answer;
-        selectedAnswer = selected;
-
-        // Remove highlight from all buttons
-        document.querySelectorAll(".option-btn").forEach(btn => {
-            btn.style.backgroundColor = "";
-        });
-
-        // Highlight selected option
-        if (selected === correct) {
-            button.style.backgroundColor = "green";
+    // Function to load questions
+    function loadQuestion() {
+        if (currentQuestionIndex < questions.length) {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.textContent = currentQuestion.question;
+            
+            optionsContainer.innerHTML = "";
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.classList.add("option-btn");
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
         } else {
-            button.style.backgroundColor = "red";
+            showResults();
         }
-
-        nextButton.style.display = "block"; // Show "Next" button after selecting an option
     }
 
-    nextButton.addEventListener("click", () => {
-        if (selectedAnswer === questions[currentQuestionIndex].answer) {
-            score++;
+    // Function to check answer
+    function checkAnswer(selectedOption) {
+        const correctAnswer = questions[currentQuestionIndex].answer;
+        if (selectedOption === correctAnswer) {
+            alert("Correct!");
+        } else {
+            alert("Wrong! The correct answer is " + correctAnswer);
         }
         currentQuestionIndex++;
-        displayQuestion();
-    });
-
-    function endQuiz() {
-        clearInterval(timerInterval);
-        questionElement.textContent = "Quiz Over!";
-        optionsElement.innerHTML = `Your Score: ${score}/${questions.length}`;
-        submitButton.style.display = "none";
-        nextButton.style.display = "none";
+        loadQuestion();
     }
 
-    submitButton.addEventListener("click", () => {
-        startTimer();
-        submitButton.style.display = "none";
-        displayQuestion();
-    });
+    // Function to show results
+    function showResults() {
+        questionElement.textContent = "Quiz Complete!";
+        optionsContainer.innerHTML = "";
+        nextBtn.style.display = "none";
+    }
 });
