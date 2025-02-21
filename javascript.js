@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Your original 50 questions array
     let questions = [
         { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Lisbon"], answer: "Paris" },
         { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
@@ -52,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
         { question: "What is the plural of 'fish'?", options: ["Fishs", "Fish", "Fishes", "Fishies"], answer: "Fish" },
         { question: "Which of these is a synonym for 'big'?", options: ["Small", "Large", "Tiny", "Little"], answer: "Large" }
     ];
-
-
     let selectedQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
@@ -62,13 +59,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const questionContainer = document.getElementById("question-container");
     const submitBtn = document.getElementById("submitBtn");
-    const nextBtn = document.getElementById("nextBtn");
     const resultContainer = document.getElementById("result-container");
     const retryBtn = document.getElementById("retryBtn");
     const timerElement = document.getElementById("time");
-    const finalScoreElement = document.getElementById("finalScore");
 
-    // Shuffle function to randomize questions
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -77,25 +71,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return array;
     }
 
-    // Start the test
     function startTest() {
-        selectedQuestions = shuffle([...questions]).slice(0, 10); // Pick 10 random questions
+        selectedQuestions = shuffle([...questions]).slice(0, 10);
         currentQuestionIndex = 0;
         score = 0;
-        timer = 1200; // Reset timer
+        timer = 1200;
 
         questionContainer.style.display = "block";
         resultContainer.style.display = "none";
-        submitBtn.style.display = "none";
-        nextBtn.style.display = "block";
+        submitBtn.style.display = "block";
 
         startTimer();
         displayQuestion();
     }
 
-    // Timer function
     function startTimer() {
-        clearInterval(timerInterval); // Clear any existing timer
+        clearInterval(timerInterval);
         timerInterval = setInterval(() => {
             let minutes = Math.floor(timer / 60);
             let seconds = timer % 60;
@@ -110,24 +101,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
     }
 
-    // Display the current question
     function displayQuestion() {
         let q = selectedQuestions[currentQuestionIndex];
         questionContainer.innerHTML = `<h2>${q.question}</h2>`;
         q.options.forEach(option => {
             questionContainer.innerHTML += `<label><input type="radio" name="answer" value="${option}"> ${option}</label><br>`;
         });
-
-        if (currentQuestionIndex === selectedQuestions.length - 1) {
-            nextBtn.style.display = "none";
-            submitBtn.style.display = "block";
-        } else {
-            nextBtn.style.display = "block";
-            submitBtn.style.display = "none";
-        }
     }
 
-    // Move to the next question
     function nextQuestion() {
         let selectedOption = document.querySelector('input[name="answer"]:checked');
         if (!selectedOption) {
@@ -147,24 +128,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // End the quiz and show results
     function endQuiz() {
         clearInterval(timerInterval);
         questionContainer.style.display = "none";
         submitBtn.style.display = "none";
-        nextBtn.style.display = "none";
 
-        finalScoreElement.textContent = score;
         resultContainer.innerHTML = `<h2>Your Score: ${score}/10</h2><p>🎉 Congratulations! Thank you for taking the test. 🎉</p>`;
         resultContainer.style.display = "block";
     }
 
-    // Event listeners
-    nextBtn.addEventListener("click", nextQuestion);
-    submitBtn.addEventListener("click", endQuiz);
+    submitBtn.addEventListener("click", function () {
+        if (currentQuestionIndex < selectedQuestions.length - 1) {
+            let confirmSubmit = confirm("You have unanswered questions. Submitting now will leave them ungraded. Proceed?");
+            if (!confirmSubmit) return;
+        }
+        endQuiz();
+    });
+
     retryBtn.addEventListener("click", startTest);
 
-    // Start the test automatically when the page loads
     if (window.location.pathname.endsWith("test.html")) {
         startTest();
     }
