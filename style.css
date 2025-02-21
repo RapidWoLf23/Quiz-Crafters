@@ -15,36 +15,6 @@ header {
     font-size: 24px;
 }
 
-nav ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
-/* Main Content */
-main {
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
 /* Quiz Form */
 #quizForm {
     text-align: left;
@@ -54,18 +24,28 @@ main {
     margin-bottom: 15px;
 }
 
+/* Buttons */
 button {
-    background-color: #007bff;
-    color: white;
+    background-color: #ffc107; /* Yellow background */
+    color: #343a40; /* Dark text for readability */
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    margin-top: 15px; /* Space between buttons */
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #e0a800; /* Slightly darker yellow for hover effect */
+}
+
+/* Option Styles */
+#options {
+    display: flex;
+    flex-direction: column; /* Stack options vertically */
+    gap: 15px; /* Space between each option */
+    align-items: center; /* Center the options */
 }
 
 /* Timer */
@@ -73,6 +53,12 @@ button:hover {
     font-size: 18px;
     font-weight: bold;
     color: #dc3545;
+}
+
+/* Next Button Position */
+#next {
+    display: block;
+    margin: 20px auto; /* Center the Next button */
 }
 
 /* Result Section */
