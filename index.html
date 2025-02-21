@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Crafters</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- External CSS -->
 </head>
 <body>
     <header>
@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <li><a href="#" onclick="location.reload();">Home</a></li>
-                <li><a href="test.html">Test Yourself</a></li>
+                <li><a href="test.html" id="testLink">Test Yourself</a></li>
             </ul>
         </nav>
     </header>
@@ -26,6 +26,13 @@
         <button id="suggestionBtn">Suggestion Box</button>
     </footer>
 
-    <script src="javascript.js"></script>
+    <script>
+        // Add confirmation before navigating to the test page
+        document.getElementById("testLink").addEventListener("click", function (event) {
+            if (!confirm("Are you sure you want to start the test? Once started, you cannot abort it.")) {
+                event.preventDefault(); // Prevent navigation if user cancels
+            }
+        });
+    </script>
 </body>
 </html>
