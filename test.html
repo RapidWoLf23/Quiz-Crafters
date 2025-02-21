@@ -21,13 +21,15 @@
         <h2 id="question">Question appears here</h2>
         <div id="options"></div>
 
-        <!-- Submit & Next Buttons -->
+        <!-- Buttons -->
         <button id="submit">Start Quiz</button>
         <button id="next" style="display: none;">Next</button>
+        <button id="finish" style="display: none;">Submit Quiz</button>
 
+        <!-- Result Section -->
         <div id="result" style="display: none;">
             <h3>Thank you for completing the quiz!</h3>
-            <p>Your score: <span id="score"></span></p>
+            <p>Your score: <span id="score">0</span>/10</p>
             <button onclick="location.reload()">Retry</button>
         </div>
     </main>
