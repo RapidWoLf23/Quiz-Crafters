@@ -17,26 +17,43 @@ header {
 }
 
 /* Center Logo */
-h1 {
+h1.logo {
     cursor: pointer;
     margin: 0 auto;
 }
 
-/* Buttons */
-button {
-    padding: 10px;
-    font-size: 16px;
+/* Navigation Bar */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
     margin: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-    background-color: #007BFF;
+}
+
+nav ul li a {
+    text-decoration: none;
     color: white;
-    border: none;
+    font-size: 18px;
+    padding: 8px 12px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
 }
 
-button:hover {
-    background-color: #0056b3;
+/* Intro Section */
+.intro {
+    margin: 50px auto;
+    width: 60%;
+    background: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Quiz Container */
@@ -54,7 +71,25 @@ button:hover {
     color: red;
 }
 
-/* Hide result initially */
+/* Buttons */
+button {
+    padding: 12px 18px;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #FF8800; /* Bright orange for better visibility */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #CC6600; /* Darker orange on hover */
+}
+
+/* Result Container */
 #result-container {
     display: none;
     background: white;
@@ -62,4 +97,14 @@ button:hover {
     margin: 20px auto;
     width: 50%;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#result-container {
+    animation: fadeIn 1s ease-in-out;
 }
