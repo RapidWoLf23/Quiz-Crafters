@@ -15,37 +15,14 @@ header {
     font-size: 24px;
 }
 
-/* Quiz Form */
-#quizForm {
-    text-align: left;
-}
-
-#quizForm div {
-    margin-bottom: 15px;
-}
-
-/* Buttons */
-button {
-    background-color: #ffc107; /* Yellow background */
-    color: #343a40; /* Dark text for readability */
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 15px; /* Space between buttons */
-}
-
-button:hover {
-    background-color: #e0a800; /* Slightly darker yellow for hover effect */
-}
-
-/* Option Styles */
-#options {
-    display: flex;
-    flex-direction: column; /* Stack options vertically */
-    gap: 15px; /* Space between each option */
-    align-items: center; /* Center the options */
+/* Main Content */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Timer */
@@ -55,10 +32,64 @@ button:hover {
     color: #dc3545;
 }
 
+/* Question Styles */
+#question {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+/* Options Styles */
+#options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Option Buttons */
+#options button {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+#options button:hover {
+    background-color: #e0c000;
+}
+
+/* Quiz Control Buttons */
+button {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #e0c000;
+}
+
 /* Next Button Position */
 #next {
-    display: block;
-    margin: 20px auto; /* Center the Next button */
+    width: 50%;
+    margin: 0 auto;
+}
+
+/* Finish Button */
+#finish {
+    width: 50%;
+    margin: 0 auto;
 }
 
 /* Result Section */
@@ -70,4 +101,19 @@ button:hover {
 
 #result h3 {
     color: #28a745;
+}
+
+#result button {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#result button:hover {
+    background-color: #e0c000;
 }
