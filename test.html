@@ -4,29 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Test</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
     <header>
-        <h1 class="logo" onclick="location.href='index.html';">Quiz Test</h1>
+        <h1>Quiz Test</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="test.html">Test Yourself</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-        <div id="quiz-container">
-            <p id="timer">Time Left: <span id="time">20:00</span></p>
-            <div id="question-container"></div>
-        </div>
+        <h2>Answer the questions below:</h2>
+        <p id="timer">Time Left: 20:00</p>
+        
+        <form id="quizForm">
+            <div id="questions-container"></div>
+            <button type="submit">Submit</button>
+        </form>
 
-        <button id="submitBtn">Submit</button>
-
-        <div id="result-container" style="display: none;">
-            <h2>Congratulations!</h2>
-            <p>Your Score: <span id="score"></span>/10</p>
-            <p>Thank you for taking the test.</p>
-            <button id="retryBtn">Retry</button>
+        <div id="result" style="display: none;">
+            <h3>Thank you for completing the quiz!</h3>
+            <p>Your score: <span id="score"></span></p>
+            <button onclick="location.reload()">Retry</button>
         </div>
     </main>
-
-    <script src="script.js"></script>
 </body>
 </html>
