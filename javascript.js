@@ -3,13 +3,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const questionElement = document.getElementById("question"); // Question display
     const optionsContainer = document.getElementById("options"); // Options display
     const nextBtn = document.getElementById("next"); // Next Question button
+    const timerElement = document.getElementById("timer"); // Timer display
     let currentQuestionIndex = 0;
     let quizStarted = false;
     let score = 0;
     let selectedQuestions = [];
+    let timer;
+    let timeLeft = 1200; // 20 minutes in seconds
 
-    // All 50 questions
-    const questions =  [
+    // All 50 questions (unchanged, keep your full question list here)
+    const questions = [
         { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Lisbon"], answer: "Paris" },
         { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
         { question: "What is the past tense of 'go'?", options: ["Went", "Gone", "Goed", "Going"], answer: "Went" },
@@ -70,6 +73,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Function to start the timer
+    function startTimer() {
+        timer = setInterval(() => {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            if (timeLeft === 0) {
+                clearInterval(timer);
+                endQuiz("Time's up!");
+            }
+
+            timeLeft--;
+        }, 1000);
+    }
+
     // Function to start quiz with confirmation
     startBtn.addEventListener("click", function () {
         let confirmStart = confirm("Are you sure you want to start the quiz?");
@@ -77,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
             quizStarted = true;
             startBtn.style.display = "none"; // Hide start button
             nextBtn.style.display = "block"; // Show Next button
+            startTimer();
             startQuiz();
         }
     });
@@ -84,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to select 10 random questions
     function startQuiz() {
         shuffleArray(questions);
-        selectedQuestions = questions.slice(0, 10); // Pick first 10 after shuffle
+        selectedQuestions = questions.slice(0, 10);
         currentQuestionIndex = 0;
         score = 0;
         loadQuestion();
@@ -108,11 +128,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Hide next button on the last question
             if (currentQuestionIndex === selectedQuestions.length - 1) {
-                nextBtn.style.display = "none"; // Hide Next button on last question
+                nextBtn.style.display = "none";
                 startBtn.style.display = "block"; // Show Submit button
             } else {
-                nextBtn.style.display = "block"; // Ensure Next button is visible for other questions
-                startBtn.style.display = "none"; // Hide Submit button
+                nextBtn.style.display = "block"; 
+                startBtn.style.display = "none"; 
             }
 
         } else {
@@ -126,10 +146,10 @@ document.addEventListener("DOMContentLoaded", function () {
         Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
 
         if (selectedOption === correctAnswer) {
-            button.style.backgroundColor = "green"; // Correct answer
+            button.style.backgroundColor = "green"; 
             score++;
         } else {
-            button.style.backgroundColor = "red"; // Wrong answer
+            button.style.backgroundColor = "red";
         }
     }
 
@@ -145,9 +165,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to show results
     function showResults() {
-        questionElement.textContent = `Quiz Complete! Your score: ${score}/10`;
+        clearInterval(timer); // Stop timer when quiz ends
+        endQuiz(`Quiz Complete! Your score: ${score}/10`);
+    }
+
+    // Function to end quiz (handles both normal and timer expiration)
+    function endQuiz(message) {
+        questionElement.textContent = message;
         optionsContainer.innerHTML = "";
         nextBtn.style.display = "none";
-        startBtn.style.display = "none"; // Hide Submit button after quiz ends
+        startBtn.style.display = "none"; 
     }
 });
