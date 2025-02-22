@@ -3,8 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const questionElement = document.getElementById("question"); // Question display
     const optionsContainer = document.getElementById("options"); // Options display
     const nextBtn = document.getElementById("next"); // Next Question button
-    const finishBtn = document.getElementById("finish"); // Finish Quiz button
+    const prevBtn = document.getElementById("previous"); // Previous Question button
+    const finishBtn = document.getElementById("finish"); // Finish button
     const timerElement = document.getElementById("timer"); // Timer display
+    const progressBar = document.getElementById("progress"); // Progress bar
+    const subjectDropdown = document.getElementById("subject"); // Subject dropdown
     let currentQuestionIndex = 0;
     let quizStarted = false;
     let score = 0;
@@ -12,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let timer;
     let timeLeft = 1200; // 20 minutes in seconds
 
-    const questions = [
+    // English questions
+    const englishQuestions = [
         { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Lisbon"], answer: "Paris" },
         { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
         { question: "What is the past tense of 'go'?", options: ["Went", "Gone", "Goed", "Going"], answer: "Went" },
@@ -65,7 +69,17 @@ document.addEventListener("DOMContentLoaded", function () {
         { question: "Which of these is a synonym for 'big'?", options: ["Small", "Large", "Tiny", "Little"], answer: "Large" }
     ];
 
+    // Function to fetch questions based on the subject
+    function getQuestionsBySubject(subject) {
+        switch (subject) {
+            case "English":
+                return englishQuestions;
+            default:
+                return [];
+        }
+    }
 
+    // Function to shuffle an array
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -73,108 +87,136 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function startTimer() {
-        timer = setInterval(() => {
-            let minutes = Math.floor(timeLeft / 60);
-            let seconds = timeLeft % 60;
-            timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            
-            if (timeLeft === 0) {
-                clearInterval(timer);
-                endQuiz("Time's up!");
-            }
-
-            timeLeft--;
-        }, 1000);
-    }
-
+    // Function to start the quiz
     startBtn.addEventListener("click", function () {
         let confirmStart = confirm("Are you sure you want to start the quiz?");
         if (confirmStart) {
             quizStarted = true;
-            startBtn.style.display = "none"; 
-            nextBtn.style.display = "block"; 
+            startBtn.style.display = "none";
+            nextBtn.style.display = "block";
+            prevBtn.style.display = "block";
+            finishBtn.style.display = "none";
             startTimer();
             startQuiz();
         }
     });
 
+    // Function to start quiz
     function startQuiz() {
-        shuffleArray(questions);
-        selectedQuestions = questions.slice(0, 10);
+        const selectedSubject = subjectDropdown.value;
+        selectedQuestions = getQuestionsBySubject(selectedSubject);
+        shuffleArray(selectedQuestions);
+        selectedQuestions = selectedQuestions.slice(0, 10);
         currentQuestionIndex = 0;
         score = 0;
         loadQuestion();
     }
 
+    // Function to load a question
     function loadQuestion() {
         if (currentQuestionIndex < selectedQuestions.length) {
             const currentQuestion = selectedQuestions[currentQuestionIndex];
             questionElement.textContent = `Q${currentQuestionIndex + 1}: ${currentQuestion.question}`;
             optionsContainer.innerHTML = "";
-
             shuffleArray(currentQuestion.options);
+
             currentQuestion.options.forEach(option => {
                 const button = document.createElement("button");
                 button.textContent = option;
                 button.classList.add("option-btn");
-                button.style.display = "block";  
-                button.style.margin = "10px auto"; 
-                button.style.padding = "10px"; 
-                button.style.width = "80%"; 
-                button.onclick = () => checkAnswer(button, option);
+                button.onclick = () => selectAnswer(button, option);
                 optionsContainer.appendChild(button);
             });
 
-            if (currentQuestionIndex === selectedQuestions.length - 1) {
-                nextBtn.style.display = "none";
-                finishBtn.style.display = "block";
-            } else {
-                nextBtn.style.display = "block";
-                finishBtn.style.display = "none";
-            }
-        } else {
-            showResults();
+            updateButtons();
         }
     }
 
-    function checkAnswer(button, selectedOption) {
-        const correctAnswer = selectedQuestions[currentQuestionIndex].answer;
-        Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
-
-        if (selectedOption === correctAnswer) {
-            button.style.backgroundColor = "green";
-            score++;
-        } else {
-            button.style.backgroundColor = "red";
-        }
+    // Function to update button visibility
+    function updateButtons() {
+        prevBtn.style.display = currentQuestionIndex > 0 ? "block" : "none";
+        nextBtn.style.display = currentQuestionIndex < selectedQuestions.length - 1 ? "block" : "none";
+        finishBtn.style.display = currentQuestionIndex === selectedQuestions.length - 1 ? "block" : "none";
     }
 
+    // Function to select an answer
+    function selectAnswer(button, selectedOption) {
+        selectedQuestions[currentQuestionIndex].selectedAnswer = selectedOption;
+        Array.from(optionsContainer.children).forEach(btn => btn.classList.remove("selected"));
+        button.classList.add("selected");
+    }
+
+    // Next button functionality
     nextBtn.addEventListener("click", function () {
-        if (quizStarted && currentQuestionIndex < selectedQuestions.length - 1) {
+        if (currentQuestionIndex < selectedQuestions.length - 1) {
             currentQuestionIndex++;
             loadQuestion();
         }
     });
 
-    finishBtn.addEventListener("click", function () {
-        let unanswered = selectedQuestions.length - currentQuestionIndex - 1;
-        if (unanswered > 0) {
-            let confirmSubmit = confirm(`You have ${unanswered} unanswered questions. Are you sure you want to submit?`);
-            if (!confirmSubmit) return;
+    // Previous button functionality
+    prevBtn.addEventListener("click", function () {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            loadQuestion();
         }
-        showResults();
     });
 
+    // Finish button functionality
+    finishBtn.addEventListener("click", function () {
+        let confirmSubmit = confirm("Are you sure you want to submit the test?");
+        if (confirmSubmit) {
+            showResults();
+        }
+    });
+
+    // Function to show results
     function showResults() {
         clearInterval(timer);
-        endQuiz(`🎉 Congratulations! You scored ${score}/10 🎉`);
-    }
-
-    function endQuiz(message) {
+        let message = "Congratulations! Your score: " + score + "/10";
         questionElement.textContent = message;
         optionsContainer.innerHTML = "";
         nextBtn.style.display = "none";
+        prevBtn.style.display = "none";
         finishBtn.style.display = "none";
+
+        const retryBtn = document.createElement("button");
+        retryBtn.textContent = "Retry";
+        retryBtn.onclick = () => location.reload();
+
+        const viewAnswersBtn = document.createElement("button");
+        viewAnswersBtn.textContent = "View Answers";
+        viewAnswersBtn.onclick = showAnswers;
+
+        optionsContainer.appendChild(retryBtn);
+        optionsContainer.appendChild(viewAnswersBtn);
     }
+
+    // Function to show answers
+    function showAnswers() {
+        optionsContainer.innerHTML = "";
+        selectedQuestions.forEach((q, index) => {
+            const answerElement = document.createElement("p");
+            answerElement.textContent = `Q${index + 1}: ${q.question} - Correct Answer: ${q.answer}`;
+            optionsContainer.appendChild(answerElement);
+        });
+    }
+
+    // Prevent reload warning
+    window.addEventListener("beforeunload", function (e) {
+        if (quizStarted) {
+            e.preventDefault();
+            e.returnValue = "Your quiz progress will be lost. Are you sure you want to leave?";
+        }
+    });
+
+    // Make the Quiz Crafter logo clickable to reload the page
+    document.getElementById("logo").addEventListener("click", function (e) {
+        if (quizStarted) {
+            let confirmReload = confirm("Your quiz progress will be lost. Are you sure you want to leave?");
+            if (!confirmReload) e.preventDefault();
+        } else {
+            location.reload();
+        }
+    });
 });
