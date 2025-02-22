@@ -13,6 +13,7 @@ header {
     color: white;
     padding: 15px;
     font-size: 24px;
+    cursor: pointer; /* Make header clickable */
 }
 
 nav ul {
@@ -54,6 +55,23 @@ main {
     margin-bottom: 15px;
 }
 
+.option-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    text-align: left;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.option-btn.selected {
+    background-color: #007bff;
+    color: white;
+}
+
 button {
     background-color: #007bff;
     color: white;
@@ -62,10 +80,17 @@ button {
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    margin-top: 10px;
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+#prev, #next, #submit, #finish {
+    display: none;
+    width: 100%;
+    margin-top: 10px;
 }
 
 /* Timer */
@@ -73,6 +98,21 @@ button:hover {
     font-size: 18px;
     font-weight: bold;
     color: #dc3545;
+}
+
+/* Progress Bar */
+#progressContainer {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#progressBar {
+    width: 0%;
+    height: 20px;
+    background-color: #28a745;
+    border-radius: 5px;
 }
 
 /* Result Section */
