@@ -3,31 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Crafters</title>
+    <title>Quiz Crafter</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Header Section -->
     <header>
-        <h1>Quiz Crafters</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="test.html">Test Yourself</a></li>
-            </ul>
-        </nav>
+        <h1 id="logo">Quiz Crafter</h1>
     </header>
-
-    <!-- Main Content -->
+    
     <main>
-        <h2>Welcome to Quiz Crafters!</h2>
-        <p>
-            Challenge yourself with a variety of quizzes designed to test your knowledge and skills.
-            Get started by clicking <strong>"Test Yourself"</strong> and see how well you can score.
-        </p>
+        <div id="subjectSelection">
+            <label for="subject">Select Subject:</label>
+            <select id="subject">
+                <option value="english">English</option>
+            </select>
+            <button id="startQuiz">Start Quiz</button>
+        </div>
+        
+        <div id="quizContainer" style="display: none;">
+            <div id="progressContainer">
+                <div id="progressBar"></div>
+            </div>
+            
+            <h2 id="question"></h2>
+            <div id="options"></div>
+            
+            <button id="prev" style="display: none;">Previous</button>
+            <button id="next" style="display: none;">Next</button>
+            <button id="submit" style="display: none;">Submit</button>
+            <button id="finish" style="display: none;">Finish</button>
+        </div>
+        
+        <div id="result" style="display: none;"></div>
+        <button id="retry" style="display: none;">Retry</button>
+        <button id="viewAnswers" style="display: none;">View Answers</button>
     </main>
-<script src="javascript.js"></script>
-
+    
+    <script src="javascript.js"></script>
 </body>
 </html>
